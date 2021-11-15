@@ -2,9 +2,9 @@
 
 This `README.md` contains a set of checklists for our contest collaboration.
 
-Your contest will use two repos: 
+Your contest will use two repos:
 - **a _contest_ repo** (this one), which is used for scoping your contest and for providing information to contestants (wardens)
-- **a _findings_ repo**, where issues are submitted. 
+- **a _findings_ repo**, where issues are submitted.
 
 Ultimately, when we launch the contest, this contest repo will be made public and will contain the smart contracts to be reviewed and all the information needed for contest participants. The findings repo will be made public after the contest is over and your team has mitigated the identified issues.
 
@@ -56,4 +56,30 @@ Under "SPONSORS ADD INFO HERE" heading below, include the following:
 
 This repo will be made public before the start of the contest. (C4 delete this line when made public)
 
-[ ⭐️ SPONSORS ADD INFO HERE ]
+## Introduction
+
+The scope of this program should be on contracts in the `v3/alchemix` directory. The contracts are adopted from Alchemix protocol, which provides highly flexible instant loans that repay themselves over time.
+
+The main changes are
+
+1. Add borrow fees when users mint alUSD. The borrow fees will be sent to a reward address
+2. Add yAxis vault adaptor
+
+## Contracts
+
+### Alchemist (line 287-300 and 604-645)
+
+Alchemist.sol exposes the main functions for users to interact, like deposit, withdraw, liquidate, repay, mint. The differences between the original Alchemix contract is adding a `setBorrowFee` function and charging borrow fee when users `mint`.
+
+#### External calls
+- AlToken
+
+### YaxisVaultAdapter (LOC: 99)
+
+It helps Alchemist manage users' fund to generate yeild through yAxis vault. It should be able to handle deposit and withdraw fund from yAxis vault correctly. It should make sure the conversation between share and token correctly
+
+#### External calls
+- Vault
+#### Libraries used
+- SafeERC20
+- SafeMath
